@@ -1,0 +1,18 @@
+{
+    "sourceFile": "AWS_Resources/main.tf",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1736798791559,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1736798791559,
+            "name": "Commit-0",
+            "content": "module \"vpc\" {\r\n  source = \"./modules/vpc\"\r\n}\r\n\r\nmodule \"ec2\" {\r\n  source = \"./modules/ec2\"\r\n}"
+        }
+    ]
+}

@@ -1,0 +1,18 @@
+{
+    "sourceFile": "AWS_Resources/modules/vpc/main.tf",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1736798720826,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1736798720826,
+            "name": "Commit-0",
+            "content": "resource \"aws_vpc\" \"myvpc\" {\r\n  cidr_block = var.vpc_cidr\r\n}\r\n\r\nresource \"aws_internet_gateway\" \"igw\" {\r\n  vpc_id = aws_vpc.myvpc.id\r\n}\r\n\r\nresource \"aws_subnet\" \"sub_1\" {\r\n  vpc_id = aws_vpc.myvpc.id\r\n  cidr_block = var.aws_subnet_1\r\n  availability_zone = var.availability_zone_s1\r\n}\r\n\r\nresource \"aws_subnet\" \"sub_2\" {\r\n  vpc_id = aws_vpc.myvpc.id\r\n  cidr_block = var.aws_subnet_2\r\n  availability_zone = var.availability_zone_s2\r\n}\r\n\r\nresource \"aws_route_table\" \"rt-1\" {\r\n  vpc_id = aws_vpc.myvpc.id\r\n  route {\r\n    cidr_block = var.aws_subnet_rt_1\r\n    gateway_id = aws_internet_gateway.igw.id\r\n  }\r\n}\r\n\r\nresource \"aws_eip\" \"nat_ip\" {\r\n  domain = \"vpc\"\r\n}\r\nresource \"aws_nat_gateway\" \"nt_g\" {\r\n  subnet_id = aws_subnet.sub_1.id\r\n  allocation_id = aws_eip.nat_ip.id\r\n  \r\n}\r\n\r\nresource \"aws_route_table\" \"rt-2\" {\r\n  vpc_id = aws_vpc.myvpc.id\r\n  route{\r\n    cidr_block = var.aws_subnet_rt_2\r\n    nat_gateway_id = aws_nat_gateway.nt_g.id\r\n  }\r\n}\r\n\r\nresource \"aws_route_table_association\" \"rta-1\" {\r\n  subnet_id = aws_subnet.sub_1.id\r\n  route_table_id = aws_route_table.rt-1.id\r\n}\r\n\r\nresource \"aws_route_table_association\" \"rta-2\" {\r\n  subnet_id = aws_subnet.sub_2.id\r\n  route_table_id = aws_route_table.rt-2.id\r\n}\r\n\r\nresource \"aws_security_group\" \"nsg\" {\r\n  vpc_id      = aws_vpc.myvpc.id\r\n  ingress  {\r\n    description = \"Allow SSH\"\r\n    from_port   = 22\r\n    to_port     = 22\r\n    protocol    = \"tcp\"\r\n    cidr_blocks = var.ingress_sg\r\n  }\r\n\r\n  ingress {\r\n    description = \"Allow HTTP\"\r\n    from_port   = 80\r\n    to_port     = 80\r\n    protocol    = \"tcp\"\r\n    cidr_blocks = var.ingress_sg\r\n  } \r\n\r\n  ingress {\r\n    description = \"Allow HTTPS\"\r\n    from_port   = 443\r\n    to_port     = 443\r\n    protocol    = \"tcp\"\r\n    cidr_blocks = var.ingress_sg\r\n  }\r\n\r\n  egress {\r\n    description = \"\"\r\n    from_port = \"0\"\r\n    to_port = \"0\"\r\n    protocol    = \"-1\"\r\n    cidr_blocks = var.egress_sg\r\n  }\r\n}\r\n\r\n\r\n\r\n\r\n"
+        }
+    ]
+}

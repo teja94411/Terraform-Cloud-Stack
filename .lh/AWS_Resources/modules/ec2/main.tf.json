@@ -1,0 +1,18 @@
+{
+    "sourceFile": "AWS_Resources/modules/ec2/main.tf",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1736798643054,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1736798643053,
+            "name": "Commit-0",
+            "content": "resource \"aws_instance\" \"webserver\" {\r\n    ami = var.ami_id\r\n    instance_type = var.instance_type\r\n    tags = {\r\n      name = \"webserver\"\r\n    }     \r\n    key_name      = \"linux\"  # for already created keypair\r\n\r\n}"
+        }
+    ]
+}
