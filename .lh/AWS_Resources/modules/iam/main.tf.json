@@ -1,0 +1,18 @@
+{
+    "sourceFile": "AWS_Resources/modules/iam/main.tf",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1737954623271,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1737954623271,
+            "name": "Commit-0",
+            "content": "resource \"aws_iam_group\" \"group_name\" {\r\n  name = var.iam_group_name\r\n}\r\n\r\nresource \"aws_iam_group_policy_attachment\" \"ec2_full_access\" {\r\n  group      = aws_iam_group.group_name.name\r\n  policy_arn = var.ec2_full_access\r\n}\r\n\r\nresource \"aws_iam_group_policy_attachment\" \"s3_full_access\" {\r\n  group      = aws_iam_group.group_name.name\r\n  policy_arn = var.s3_full_access\r\n}\r\n\r\nresource \"aws_iam_user\" \"new_iam_user\" {\r\n  for_each = toset(var.aws_iam_user)  \r\n  name     = each.value  # Referencing each user name correctly\r\n}\r\n\r\nresource \"aws_iam_group_membership\" \"add_user_to_group\" {\r\n  name  = \"group-membership-${aws_iam_group.group_name.name}\"  # Unique name for the membership\r\n  group = aws_iam_group.group_name.name\r\n  users = tolist([for user in aws_iam_user.new_iam_user : user.name])  # Extracting list of usernames\r\n}\r\n\r\nresource \"aws_iam_policy\" \"deny_ec2_s3_policy\" {\r\n  name        = var.policy_name\r\n  description = var.policy_description\r\n  policy      = var.policy_json\r\n}\r\n\r\n"
+        }
+    ]
+}

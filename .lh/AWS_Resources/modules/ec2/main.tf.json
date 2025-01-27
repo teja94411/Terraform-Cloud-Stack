@@ -3,11 +3,15 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 0,
+            "activePatchIndex": 1,
             "patches": [
                 {
                     "date": 1736798643054,
                     "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1737954580199,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,7 +3,7 @@\n     instance_type = var.instance_type\r\n     tags = {\r\n       name = \"webserver\"\r\n     }     \r\n-    key_name      = \"linux\"  # for already created keypair\r\n+    key_name      = \"linux\"  \r\n \r\n }\n\\ No newline at end of file\n"
                 }
             ],
             "date": 1736798643053,

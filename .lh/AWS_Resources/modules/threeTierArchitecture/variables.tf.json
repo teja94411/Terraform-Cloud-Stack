@@ -1,0 +1,18 @@
+{
+    "sourceFile": "AWS_Resources/modules/threeTierArchitecture/variables.tf",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1737954769412,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1737954769412,
+            "name": "Commit-0",
+            "content": "variable \"instance_type\" {\r\n  description = \"instance configuration\"\r\n  default = \"t2.micro\"\r\n}\r\n\r\nvariable \"ami_id\" {\r\n  description = \"ami value\"\r\n  default = \"ami-0df8c184d5f6ae949\"\r\n}\r\n\r\nvariable \"ec2_server\" {\r\n  description = \"server name\"\r\n  default = \"web server\"\r\n}\r\n\r\nvariable \"vpc_cidr\" {\r\n  description = \"cidr block for the vpc\"\r\n  default = \"10.0.0.0/16\"\r\n}\r\n\r\nvariable \"availability_zone_s1\" {\r\n  description = \"Availability Zone for Subnet 1\"\r\n  default = \"us-east-1a\"\r\n}\r\n\r\nvariable \"aws_subnet_1\" {\r\n  description = \"CIDR block for CIDR-1\"\r\n  default = \"10.0.0.0/24\"\r\n}\r\n\r\nvariable \"availability_zone_s2\" {\r\n  description = \"Availability Zone for Subnet 2\"\r\n  default = \"us-east-1b\"\r\n}\r\n\r\nvariable \"aws_subnet_2\" {\r\n  description = \"CIDR block for CIDR-2\"\r\n  default = \"10.0.1.0/24\"\r\n}\r\n\r\nvariable \"ingress_sg\" {\r\n  description = \"inbound security values for TCP, HTTP, HTTPS\"\r\n  default = [\"0.0.0.0/0\"]\r\n}\r\n\r\nvariable \"egress_sg\" {\r\n  description = \"outbound security value\"\r\n  default = [\"0.0.0.0/0\"]\r\n}\r\n\r\nvariable \"public_key_path\" {\r\n  description = \"Path to the public key file\"\r\n  default = \"~/.ssh/id_rsa.pub\"  # Adjust this path based on your system\r\n}\r\n\r\nvariable \"db_password\" {\r\n  description = \"Database password\"\r\n  type        = string\r\n  sensitive   = true\r\n}\r\n\r\nvariable \"key_pair_base_download_path\" {\r\n  description = \"storing ec2 private keys\"\r\n  default = \"C:/Users/Admin\"\r\n}\r\n\r\nvariable \"aws_subnet\" {\r\n  description = \"CIDR block for CIDR-1\"\r\n  default = \"10.0.0.0/24\"\r\n}\r\n\r\nvariable \"desired_capacity\" {\r\n  description = \"Desired number of EC2 instances in Auto Scaling Group\"\r\n  type        = number\r\n  default     = 2\r\n}\r\n\r\nvariable \"min_size\" {\r\n  description = \"Minimum number of EC2 instances in Auto Scaling Group\"\r\n  type        = number\r\n  default     = 2\r\n}\r\n\r\nvariable \"max_size\" {\r\n  description = \"Maximum number of EC2 instances in Auto Scaling Group\"\r\n  type        = number\r\n  default     = 5\r\n}"
+        }
+    ]
+}
