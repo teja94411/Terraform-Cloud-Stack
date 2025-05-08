@@ -200,7 +200,7 @@ Fetches documentation for the providers or resources.
 terraform providers -help
 ```
 
-### Terraform Workflow Diagram
+## Terraform Workflow Diagram
 
 ![image](https://github.com/user-attachments/assets/80c19de4-7c3c-4984-a2d7-342f4afc3599)
 
