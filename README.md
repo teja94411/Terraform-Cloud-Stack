@@ -202,40 +202,7 @@ terraform providers -help
 
 ### Terraform Workflow Diagram
 
-+-----------------------+
-|    terraform init     |
-| Initializes the working|
-| directory and installs|
-| provider plugins       |
-+-----------------------+
-           |
-           v
-+-----------------------+
-|  terraform validate    |
-|  Validates the config |
-|  files for syntax     |
-+-----------------------+
-           |
-           v
-+-----------------------+
-|  terraform plan        |
-|  Previews the changes |
-|  to be applied        |
-+-----------------------+
-           |
-           v
-+-----------------------+
-|  terraform apply       |
-|  Applies the changes  |
-|  and provisions AWS   |
-+-----------------------+
-           |
-           v
-+-----------------------+
-| terraform destroy      |
-| Destroys all resources|
-| created by Terraform  |
-+-----------------------+
+![image](https://github.com/user-attachments/assets/80c19de4-7c3c-4984-a2d7-342f4afc3599)
 
 
 **The key features of Terraform are:-**
