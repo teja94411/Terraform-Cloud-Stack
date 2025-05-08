@@ -200,6 +200,44 @@ Fetches documentation for the providers or resources.
 terraform providers -help
 ```
 
+### Terraform Workflow Diagram
+
++-----------------------+
+|    terraform init     |
+| Initializes the working|
+| directory and installs|
+| provider plugins       |
++-----------------------+
+           |
+           v
++-----------------------+
+|  terraform validate    |
+|  Validates the config |
+|  files for syntax     |
++-----------------------+
+           |
+           v
++-----------------------+
+|  terraform plan        |
+|  Previews the changes |
+|  to be applied        |
++-----------------------+
+           |
+           v
++-----------------------+
+|  terraform apply       |
+|  Applies the changes  |
+|  and provisions AWS   |
++-----------------------+
+           |
+           v
++-----------------------+
+| terraform destroy      |
+| Destroys all resources|
+| created by Terraform  |
++-----------------------+
+
+
 **The key features of Terraform are:-**
 
 • **Infrastructure as Code:-** Infrastructure is described using a high-level configuration syntax. This allows a blueprint of your datacenter to be versioned and treated as you would any other code. 
