@@ -13,7 +13,7 @@ This Terraform configuration creates a custom Virtual Private Cloud (VPC) in AWS
    - A custom VPC is created with the CIDR block `10.0.0.0/16`.
    
 2. **Subnets**:
-   - Two subnets are created: `subnet-1-prod` with CIDR `10.0.1.0/24` and `subnet-2-prod` with CIDR `10.0.2.0/24`.
+   - Two subnets are created: `subnet-1-test` with CIDR `10.0.1.0/24` and `subnet-2-test` with CIDR `10.0.2.0/24`.
    
 3. **Internet Gateway**:
    - An Internet Gateway is created and attached to the VPC to allow internet access for the public subnet.
