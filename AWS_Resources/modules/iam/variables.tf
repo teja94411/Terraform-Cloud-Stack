@@ -1,49 +1,34 @@
 variable "iam_group_name" {
-    description = "creating iam group"
-    default = "DevOps" 
+  description = "IAM group name"
+  type        = string
 }
 
 variable "ec2_full_access" {
-    description = "attaching the ec2 full access"
-    default = "arn:aws:iam::aws:policy/AmazonEC2FullAccess" 
+  description = "IAM policy ARN for EC2 full access"
+  type        = string
 }
 
 variable "s3_full_access" {
-    description = "attaching the s3 full access"
-    default = "arn:aws:iam::aws:policy/AmazonS3FullAccess" 
+  description = "IAM policy ARN for S3 full access"
+  type        = string
 }
 
 variable "aws_iam_user" {
   description = "List of IAM users to create"
-  default     = ["Kevin", "Dev", "Ram", "Jay"]
+  type        = list(string)
 }
 
 variable "policy_name" {
-  description = "Name of the IAM policy"
-  default     = "Deny_EC2_S3_Access"
+  description = "IAM policy name"
+  type        = string
 }
 
 variable "policy_description" {
-  description = "Description of the IAM policy"
-  default     = "Policy to explicitly deny access to EC2 and S3"
+  description = "IAM policy description"
+  type        = string
 }
 
 variable "policy_json" {
-  description = "The JSON policy document"
-  default = <<Policy
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Effect": "Deny",
-      "Action": [
-        "ec2:*",
-        "s3:*"
-      ],
-      "Resource": "*"
-    }
-  ]
+  description = "JSON string for custom IAM policy"
+  type        = string
 }
-Policy
-}
-
