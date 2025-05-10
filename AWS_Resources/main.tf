@@ -53,6 +53,20 @@ module "iam" {
   })
 }
 
+module "asg-ec2-cw-elb" {
+  source               = "./modules/asg-ec2-cw-elb"  
+  vpc_cidr             = "10.0.0.0/16"              
+  aws_subnet_1         = "10.0.1.0/24"              
+  aws_subnet_2         = "10.0.2.0/24"              
+  availability_zone_s1 = "us-east-1a"               
+  availability_zone_s2 = "us-east-1b"               
+  ingress_sg           = ["0.0.0.0/0"]              
+  egress_sg            = ["0.0.0.0/0"]              
+  ami_id               = "ami-053b0d53c279acc90"     
+  instance_type        = "t2.micro"                  
+  elb_name             = "web-alb"                   
+}
+
 module "three-tier" {
   source = "./modules/threeTierArchitecture"
   db_password = "var.db_password"
