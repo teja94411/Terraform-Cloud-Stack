@@ -17,7 +17,13 @@ module "ec2" {
 }
 
 module "elb" {
-  source = "./modules/elb"
+  source           = "./modules/elb"
+  ami_id           = "ami-053b0d53c279acc90"  # Replace with a valid AMI ID
+  instance_type    = "t2.micro"
+  elb_name         = "web-elb"
+  subnet_ids       = ["subnet-09bfa4bbb2d3382b3", "subnet-031e6143ca811a913"]
+  #security_groups  = ["sg-0bd5b996453300c38"]
+  security_group_ids = ["sg-0123456789abcdef0"]
 }
 
 module "s3" {

@@ -1,90 +1,126 @@
-resource "aws_vpc" "myvpc" {
-  cidr_block = var.vpc_cidr
+data "aws_vpc" "default" {
+  default = true
 }
 
-resource "aws_subnet" "sub_1" {
-  vpc_id            = aws_vpc.myvpc.id
-  cidr_block        = var.aws_subnet_1
-  availability_zone = var.availability_zone_s1
-}
-
-resource "aws_subnet" "sub_2" {
-  vpc_id            = aws_vpc.myvpc.id
-  cidr_block        = var.aws_subnet_2
-  availability_zone = var.availability_zone_s2
-}
-
-resource "aws_security_group" "nsg" {
-  vpc_id = aws_vpc.myvpc.id
+# Create the security group for the web instances and load balancer
+resource "aws_security_group" "web_sg" {
+  name_prefix = "web-sg-"
+  vpc_id      = data.aws_vpc.default.id
 
   ingress {
-    description = "Allow SSH"
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
-    cidr_blocks = var.ingress_sg
-  }
-
-  ingress {
-    description = "Allow HTTP"
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
-    cidr_blocks = var.ingress_sg
-  }
-
-  ingress {
-    description = "Allow HTTPS"
-    from_port   = 443
-    to_port     = 443
-    protocol    = "tcp"
-    cidr_blocks = var.ingress_sg
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   egress {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
-    cidr_blocks = var.egress_sg
+    cidr_blocks = ["0.0.0.0/0"]
   }
 }
 
-resource "aws_lb" "test-lb" {
-  name               = "test-lb"
+# Create EC2 instance 1
+resource "aws_instance" "web1" {
+  ami           = var.ami_id
+  instance_type = var.instance_type
+  subnet_id     = var.subnet_ids[0]
+  security_groups = [aws_security_group.web_sg.id]
+
+  tags = {
+    Name = "webserver-1"
+  }
+
+  user_data = <<-EOF
+    #!/bin/bash
+    sudo apt-get update -y
+    sudo apt-get install -y nginx
+    sudo systemctl start nginx
+    sudo systemctl enable nginx
+  EOF
+}
+
+# Create EC2 instance 2
+resource "aws_instance" "web2" {
+  ami           = var.ami_id
+  instance_type = var.instance_type
+  subnet_id     = var.subnet_ids[1]
+  security_groups = [aws_security_group.web_sg.id]
+
+  tags = {
+    Name = "webserver-2"
+  }
+
+  user_data = <<-EOF
+    #!/bin/bash
+    sudo apt-get update -y
+    sudo apt-get install -y nginx
+    sudo systemctl start nginx
+    sudo systemctl enable nginx
+  EOF
+}
+
+# Create Load Balancer (ALB)
+resource "aws_lb" "this" {
+  name               = var.elb_name
   internal           = false
-  load_balancer_type = "application"
-  security_groups    = [aws_security_group.nsg.id]
-  subnets            = [aws_subnet.sub_1.id, aws_subnet.sub_2.id]
-  ip_address_type    = "ipv4"
-}
+  load_balancer_type = "application"  # This is for ALB
+  security_groups    = [aws_security_group.web_sg.id]
+  subnets            = var.subnet_ids
 
-resource "aws_lb_target_group" "tg" {
-  name     = "test-tg"
-  port     = 80
-  protocol = "HTTP"
-  vpc_id   = aws_vpc.myvpc.id
+  enable_deletion_protection = false
+  enable_cross_zone_load_balancing = true
 
-  health_check {
-    path                = "/"
-    interval            = 30
-    timeout             = 5
-    healthy_threshold   = 2
-    unhealthy_threshold = 2
-    matcher             = "200"
+  tags = {
+    Name = var.elb_name
   }
 }
 
+# Create the listener for the Load Balancer
 resource "aws_lb_listener" "http" {
-  load_balancer_arn = aws_lb.test-lb.arn
+  load_balancer_arn = aws_lb.this.arn
   port              = 80
   protocol          = "HTTP"
 
   default_action {
-    type             = "forward"
-    target_group_arn = aws_lb_target_group.tg.arn
+    type             = "fixed-response"
+    fixed_response {
+      status_code = 200
+      content_type = "text/plain"
+      message_body = "OK"
+    }
   }
 }
 
-resource "aws_internet_gateway" "igw" {
-  vpc_id = aws_vpc.myvpc.id
+# Create the Target Group for Load Balancer
+resource "aws_lb_target_group" "tg" {
+  name     = "web-target-group"
+  port     = 80
+  protocol = "HTTP"
+  vpc_id   = data.aws_vpc.default.id
+
+  health_check {
+    interval            = 30
+    path                = "/"
+    port                = 80
+    protocol            = "HTTP"
+    timeout             = 5
+    healthy_threshold   = 2
+    unhealthy_threshold = 2
+  }
+}
+
+# Register EC2 instances with the target group
+resource "aws_lb_target_group_attachment" "ec2_attachment_1" {
+  target_group_arn = aws_lb_target_group.tg.arn
+  target_id        = aws_instance.web1.id
+  port             = 80
+}
+
+resource "aws_lb_target_group_attachment" "ec2_attachment_2" {
+  target_group_arn = aws_lb_target_group.tg.arn
+  target_id        = aws_instance.web2.id
+  port             = 80
 }

@@ -1,39 +1,24 @@
-variable "vpc_cidr"{
-    description ="cidr block for the vpc"
-    default     ="10.0.0.0/16"
+variable "ami_id" {
+  description = "The AMI ID for the EC2 instances"
+  type        = string
 }
 
-variable "availability_zone" {
-    description = "AZ for subnet-1"
-    default = "us-east-1a" 
+variable "instance_type" {
+  description = "The EC2 instance type"
+  type        = string
 }
 
-variable "aws_subnet_1" {
-    description ="CIDR block for CIDR-1"
-    default = "10.0.0.0/24"     
+variable "subnet_ids" {
+  description = "List of subnet IDs for the instances and load balancer"
+  type        = list(string)
 }
 
-variable "availability_zone_s1" {
-  description = "Availability Zone for Subnet 1"
-  default     = "us-east-1a"
+variable "elb_name" {
+  description = "The name of the Elastic Load Balancer"
+  type        = string
 }
 
-variable "ingress_sg" {
-    description ="inbound security values for TCP,HTTP,HTTPS"
-    default = ["0.0.0.0/0"]
-}
-
-variable "egress_sg" {
-    description ="outbound security value"
-    default = ["0.0.0.0/0"]
-}
-
-variable "aws_subnet_2" {
-  description = "CIDR block for Subnet 2"
-  default     = "10.0.1.0/24"
-}
-
-variable "availability_zone_s2" {
-  description = "Availability Zone for Subnet 2"
-  default     = "us-east-1b"
+variable "security_group_ids" {
+  description = "Security group IDs for the load balancer and instances"
+  type        = list(string)
 }
